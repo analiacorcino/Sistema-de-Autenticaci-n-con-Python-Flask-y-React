@@ -1,39 +1,17 @@
-import { element } from "prop-types";
-import React, {useState, useEffect} from "react";
-import { Link, useParams } from "react-router-dom";
+import React, {useContext} from "react";
+import { useParams  } from "react-router-dom";
+import  { Context } from "../store/appContext";
 
 export const Character = () => {
 
-  const [character, setCharacter] = useState([]);
-  const theid = useParams ()
+const theid = useParams()
+const id = parseInt(theid.theid) -1
 
- //API
-
- const getList = async ()=>{
-  try {
-      const response = await fetch("https://swapi.dev/api/people/"+theid.theid, {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json"
-          }
-      })
-      const data = await response.json()
-      setCharacter(data);
-      console.log(data);
-  } catch (error) {
-      console.log(error);
-  }
-}
-
-
-
-useEffect(()=>{
-  getList()
-},[])
-
+const {store, actions} = useContext (Context);
 
 	return (
 		<>
+
 
         <div className="container">
 
@@ -45,7 +23,7 @@ useEffect(()=>{
     </div>
     <div className="col-md-6 p-4">
       <div className="card-body ">
-        <h1 className="card-title">{character.name}</h1>
+        <h1 className="card-title">{store.characters[id].name}</h1>
         <p className="card-text">Star Wars, conocida también en español como La guerra de las galaxias, es una franquicia y universo compartido de fantasía compuesta primordialmente de una serie de películas concebidas por el cineasta estadounidense George Lucas en la década de 1970, y producidas y distribuidas por The Walt Disney Company a partir de 2012. 
         </p>
      
@@ -59,14 +37,14 @@ useEffect(()=>{
 
 <div className="container d-flex justify-content-center m-3">
     <ul> <hr/>
-        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Hair Color : {character.hair_color} </li>
-        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Skin Color : {character.skin_color} </li>
-        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Eye Color: {character.eye_color} </li>
-        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Gender: {character.gender} </li>
-        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Birthday: {character.birth_year} </li>
-        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Height : {character.height} </li>
-        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Mass: {character.mass} </li>
-        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Gender: {character.gender} </li>
+        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Hair Color : {store.characters[id].hair_color} </li>
+        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Skin Color : {store.characters[id].skin_color} </li>
+        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Eye Color: {store.characters[id].eye_color} </li>
+        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Gender: {store.characters[id].gender} </li>
+        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Birthday: {store.characters[id].birth_year} </li>
+        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Height : {store.characters[id].height} </li>
+        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Mass: {store.characters[id].mass} </li>
+        <li className="d-inline"> <i className="fas fa-arrow-circle-right"></i> Gender: {store.characters[id].gender} </li>
     </ul>
 </div>
 

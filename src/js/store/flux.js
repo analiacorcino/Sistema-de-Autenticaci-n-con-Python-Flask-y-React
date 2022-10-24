@@ -1,6 +1,10 @@
+const APIUrl = "https://3000-analiacorci-jwtbuildast-q2gfipzutq0.ws-us72.gitpod.io"
+
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			user: {},
 			demo: [
 				{
 					title: "FIRST",
@@ -13,7 +17,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			bookmarks: []
+			bookmarks: [],
+			planets: [],
+			characters: []
 		},
 		
 		
@@ -29,6 +35,111 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			
+
+/* ############ POST */
+
+postData: async (route, bodyData)=>{
+	try {
+		const response = await fetch(APIUrl+route, {
+			method: "POST",
+			body: JSON.stringify(bodyData),
+			headers: {
+				"Content-Type": "application/json"
+			}	
+		})
+		if (response.status === 200) {
+			const data = await response.json()
+			return {data: data, status: response.status}
+		}
+	} catch (error) {
+		console.log(error);
+		return {status: response.status}
+	}
+},
+/* GET */
+getData: async (route)=>{
+	try {
+		const response = await fetch(APIUrl+route, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+		const data = await response.json()
+		console.log(data);
+		return data
+	} catch (error) {
+		console.log(error);
+	}
+},
+
+/* ############### PUT */
+putData: async (route, bodyData)=>{
+	try {
+		const response = await fetch(APIUrl+route, {
+			method: "PUT",
+			body: JSON.stringify(bodyData),
+			headers: {
+				"Content-Type": "application/json"
+			}	
+		})
+		if (response.status === 200) {
+			const data = await response.json()
+			return {data: data, status: response.status}
+		}
+	} catch (error) {
+		console.log(error);
+		return {status: response.status}
+	}
+},
+
+
+
+/* #################DELETE */ 
+
+deleteData: async (route)=>{
+	try {
+		const response = await fetch(APIUrl+route, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json"
+			}	
+		})
+		if (response.status === 200) {
+			const data = await response.json()
+			return {data: data, status: response.status}
+		}
+	} catch (error) {
+		console.log(error);
+		return {status: response.status}
+	}
+},
+
+
+//###############Inicio Personajes
+
+getAllCharacters: async () => {
+	const action = getActions()
+	const data = await action.getData('/characters');
+	console.log(data);
+	setStore({characters: data})
+},
+
+//###############Fin Personajes
+
+
+////###############Inicio Planetas
+getAllPlanets: async () => {
+	const action = getActions()
+	const data = await action.getData('/planets');
+	setStore({planets: data})
+},
+
+
+//###############Fin Planetas
+
+
+
 
 			addBookmark: (index, value) => {
 				const store = getStore();
@@ -55,6 +166,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				...store.bookmarks.slice (index+1, store.bookmarks.length)
 				]})
 			},
+
+
+
+
 
 
 			changeColor: (index, color) => {

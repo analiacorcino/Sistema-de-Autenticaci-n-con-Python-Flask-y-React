@@ -1,30 +1,12 @@
-import { element } from "prop-types";
-import React, {useState, useEffect, useContext} from "react";
+import React, {useContext} from "react";
 import { Link } from "react-router-dom";
 import  { Context } from "../store/appContext";
 
 export const Planets = () => {
 
-  const [Planets, setPlanets] = useState([]);
+
   const {store, actions} = useContext (Context);
 
- //API
-
- const getList = async ()=>{
-  try {
-      const response = await fetch("https://swapi.dev/api/planets/", {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json"
-          }
-      })
-      const data = await response.json()
-      setPlanets(data.results);
-      console.log(data.results);
-  } catch (error) {
-      console.log(error);
-  }
-}
 
 
 function bookmarkExist(index) {
@@ -40,9 +22,7 @@ function bookmarkExist(index) {
 }
 
 
-useEffect(()=>{
-  getList()
-},[])
+
 
 // caracters
 
@@ -60,7 +40,7 @@ return (
       <div className="d-flex flex-row flex-no-wrap">
 
     
-      {Planets.map((element, index) => {
+      {store.planets.map((element, index) => {
     
     return (
    
@@ -68,7 +48,7 @@ return (
    <div className="card m-2" style={{minWidth: "18rem"}}  key={index}>
       
       {index === 0 ?
-									<img src={"https://static.wikia.nocookie.net/esstarwars/images/b/b0/Tatooine_TPM.png"} className="card-img-top" alt="..."/>
+									<img src={"https://i.imgur.com/N74ARLR.png"} className="card-img-top" alt="..."/>
 				:
 									<img src={"https://starwars-visualguide.com/assets/img/planets/"+(index+1)+".jpg"} className="card-img-top" alt="..."/>
 			}

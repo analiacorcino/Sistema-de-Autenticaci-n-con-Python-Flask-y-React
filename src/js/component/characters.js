@@ -1,30 +1,12 @@
-import { element } from "prop-types";
-import React, {useState, useEffect, useContext} from "react";
+import React, {useContext} from "react";
 import { Link } from "react-router-dom";
 import  { Context } from "../store/appContext";
 
+
+
 export const Characters = () => {
 
-  const [characters, setCharacters] = useState([]);
   const {store, actions} = useContext (Context);
-
- //API
-
- const getList = async ()=>{
-  try {
-      const response = await fetch("https://swapi.dev/api/people/", {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json"
-          }
-      })
-      const data = await response.json()
-      setCharacters(data.results);
-      console.log(data.results);
-  } catch (error) {
-      console.log(error);
-  }
-}
 
 
 function bookmarkExist(index) {
@@ -39,9 +21,7 @@ function bookmarkExist(index) {
 	}
 }
 
-useEffect(()=>{
-  getList()
-},[])
+
 
 // caracters
 
@@ -56,7 +36,7 @@ return (
       <div className="container overflow-auto">
 
       <div className="d-flex flex-row flex-no-wrap">
-      {characters.map((element, index) => {
+      {store.characters.map((element, index) => {
     
     return (
    
